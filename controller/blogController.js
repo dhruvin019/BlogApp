@@ -1,4 +1,6 @@
-const blogModel = require('../models/blogModel')
+const mongoose = require('mongoose');
+const blogModel = require('../models/blogModel');
+const userModel = require('../models/userModel');
 
 exports.getAllBlog = async (req,res) => {
     try{
@@ -30,17 +32,31 @@ exports.getAllBlog = async (req,res) => {
 
 exports.creatBlog = async (req,res) => {
     try{
-        const{title,description,image} = req.body;
+        const{title,description,image,user} = req.body;
         // validation
-        if(!title || !description || !image)
+        if(!title || !description || !image || !user)
         {    
             return res.status(400).send({
             success: false,
             message : "please provide all fields",
             }); 
         }
-        const newBlog = new blogModel({title,description,image});
-        await newBlog.save();
+        const existingUser = await userModel.findById(user);
+        if(!existingUser)
+        {
+            return res.staus(404).send({
+                success:false,
+                message:'unable to find user'
+            })
+        }
+        const newBlog = new blogModel({title,description,image,user});
+        const session = await mongoose.startSession();
+        session.startTransaction();
+        await newBlog.save({ session });
+        existingUser.blogs.push(newBlog);
+        await existingUser.save({session});
+        await session.commitTransaction();
+
         return res.status(201).send({
             success: true,
             message : "blog created",
@@ -70,6 +86,7 @@ exports.getBlogById = async (req,res) => {
             }); 
         }
         const oneBlog = await blogModel.findById(id);
+        console.log(oneBlog);
 
         return res.status(201).send({
             success: true,
@@ -116,7 +133,19 @@ exports.updateBlog = async (req,res) => {
 exports.deletBlog = async (req,res) => {
     try{
         const {id} =  req.params;
-        const deleteBlog = await  blogModel.findByIdAndDelete(id);
+        const deleteBlog = await  blogModel.findByIdAndDelete(id)
+        .populate("user");
+
+        if(!deleteBlog)
+        {
+            return res.status(400).send({
+                success: false,
+                message : "no blog found"
+            });   
+        }
+
+        deleteBlog.user.blogs.pull(id);
+        await deleteBlog.user.save();
 
         return res.status(200).send({
             success: true,
@@ -131,7 +160,58 @@ exports.deletBlog = async (req,res) => {
             success: false,
             message : "Error to delete blog",
             error
-        }) 
+        }); 
     } 
 }
+
+// get all blog of particuler user
+// exports.userBlog = async (req, res) => {
+//     try {
+//         const { id } = req.params; // Remove .id after req.params
+//         const userBlogs = await userModel.findById(id).populate('blogs').populate('user');
+//         if (!userBlogs) {
+//             return res.status(404).send({
+//                 success: false,
+//                 message: "No blogs found for this user"
+//             });
+//         }
+//         return res.status(200).send({
+//             success: true,
+//             message: "User has the following blogs",
+//             userBlogs
+//         });
+//     } catch (error) {
+//         console.error(error);
+//         return res.status(500).send({
+//             success: false,
+//             message: "Error while fetching user blogs",
+//             error: error.message
+//         });
+//     }
+// }
+exports.userBlog = async (req, res) => {
+    try {
+      const userBlog = await userModel.findById(req.params.id).populate("blogs");
+  
+      if (!userBlog) {
+        return res.status(404).send({
+          success: false,
+          message: "blogs not found with this id",
+        });
+      }
+      return res.status(200).send({
+        success: true,
+        message: "user blogs",
+        userBlog,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(400).send({
+        success: false,
+        message: "error in user blog",
+        error,
+      });
+    }
+  };
+
 
