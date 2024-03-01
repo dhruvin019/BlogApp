@@ -1,3 +1,5 @@
+// C:\Users\Virpara Dhruvin\.vscode\Backend\NodeJs\BlogApp> npm run dev
+
 import React from 'react';
 import Header from './components/Header';
 import {Routes,Route} from 'react-router-dom';
@@ -9,11 +11,14 @@ import CreateBlog from './pages/CreateBlog';
 import BlogDetails from './pages/BlogDetails';
 import { ToastContainer } from 'react-toastify';
 
+
 function App() {
   return (
     <>
+      
       <Header/>
-      <ToastContainer/>
+      
+      {/* <ToastContainer/> */}
      <Routes>
       <Route path="/" element={<Blogs/>}/>
       <Route path="/blogs" element={<Blogs/>}/>
