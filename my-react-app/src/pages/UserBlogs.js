@@ -52,13 +52,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import BlogCard from "../components/BlogCard";
+import Spinner from "../components/Spinner";
 const UserBlogs = () => {
   const [blogs, setBlogs] = useState([]);
+  const [loading,setLoading] = useState(false);
 
   //get user blogs
   const getUserBlogs = async () => {
     try {
+      setLoading(true);
       const id = localStorage.getItem("userId");
+      console.log(id);
       const { data } = await axios.get(`/api/v1/blog/user-blog/${id}`);
       if (data?.success) {
         setBlogs(data?.userBlog.blogs);
@@ -66,6 +70,7 @@ const UserBlogs = () => {
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -74,16 +79,24 @@ const UserBlogs = () => {
 
   return (
     <div>
-      {blogs && blogs.length > 0 ? (
+      {loading ? <Spinner/> :
+        blogs && blogs.length > 0 ? (
         blogs.map((blog) => (
           <BlogCard
-            id={blog._id}
-            title={blog.title}
-            description={blog.description}
-            image={blog.image}
-            username={blog.user.username}
-            time={blog.createdAt}
-            isUser={localStorage.getItem("userId") === blog?.user?._id}          
+            // id={blog._id}
+            // title={blog.title}
+            // description={blog.description}
+            // image={blog.image}
+            // username={blog.userName}
+            // time={blog.createdAt}
+            // isUser={true}  
+            id={blog?._id}
+            isUser={true}
+            title={blog?.title}
+            description={blog?.description}
+            image={blog?.image}
+            userName={blog?.userName}
+            time={blog.createdAt}        
           />
         ))
       ) : (

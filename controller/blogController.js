@@ -32,9 +32,9 @@ exports.getAllBlog = async (req,res) => {
 
 exports.creatBlog = async (req,res) => {
     try{
-        const{title,description,image,user} = req.body;
+        const{title,description,image,user,userName} = req.body;
         // validation
-        if(!title || !description || !image || !user)
+        if(!title || !description || !image || !user )
         {    
             return res.status(400).send({
             success: false,
@@ -49,7 +49,7 @@ exports.creatBlog = async (req,res) => {
                 message:'unable to find user'
             })
         }
-        const newBlog = new blogModel({title,description,image,user});
+        const newBlog = new blogModel({title,description,image,user,userName});
         const session = await mongoose.startSession();
         session.startTransaction();
         await newBlog.save({ session });
@@ -108,7 +108,7 @@ exports.getBlogById = async (req,res) => {
 exports.updateBlog = async (req,res) => {
     try{
         const { id } = req.params;
-        const{title,description,image} = req.body;
+        const{title,description,image,usrName} = req.body;
         const updated = await blogModel.findByIdAndUpdate(
             id,
             {...req.body},

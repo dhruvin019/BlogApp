@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { Box, Button, InputLabel, TextField, Typography } from "@mui/material";
-
-
+import {  toast } from 'react-toastify';
 const BlogDetails = () => {
   const [blog, setBlog] = useState({});
   const id = useParams().id;
@@ -14,12 +12,14 @@ const BlogDetails = () => {
   const getBlogDetail = async () => {
     try {
       const { data } = await axios.get(`/api/v1/blog/get-blog/${id}`);
+      const userName = localStorage.getItem("userName");
+      console.log(data)
       if (data?.success) {
         setBlog(data?.blog);
         setInputs({
-          title: data?.blog.title,
-          description: data?.blog.description,
-          image: data?.blog.image,
+          title: data?.oneBlog.title,
+          description: data?.oneBlog.description,
+          image: data?.oneBlog.image,
         });
       }
     } catch (error) {
@@ -47,6 +47,7 @@ const BlogDetails = () => {
         description: inputs.description,
         image: inputs.image,
         user: id,
+        userName: UserName
       });
       if (data?.success) {
         toast.success("Blog Updated");

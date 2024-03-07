@@ -15,13 +15,7 @@ import axios from "axios";
 
 
 export default function BlogCard({
-  title,
-  description,
-  image,
-  username,
-  time,
-  id,
-  isUser,
+  id,isUser,title,description,image,userName,time
 }) {
   const navigate = useNavigate();
   const handleEdit = () => {
@@ -39,6 +33,15 @@ export default function BlogCard({
       console.log(error);
     }
   };
+
+  const formatDate = (createdAt) => {
+    const date = new Date(createdAt);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+
   return (
     <Card
       sx={{
@@ -65,11 +68,11 @@ export default function BlogCard({
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            {username}
+            {userName}
           </Avatar>
         }
-        title={username}
-        subheader={time}
+        title={userName}
+        subheader={formatDate(time)} 
       />
       <CardMedia component="img" height="194" image={image} alt="Paella dish" />
       <CardContent>

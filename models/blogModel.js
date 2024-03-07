@@ -19,6 +19,9 @@ const blogSchema = new mongoose.Schema({
         // ref:'User',
         // required:[true,'user is required'],
     },
+    userName:{
+        type:String,
+    },
 },{timestamps: true})
 
 const blogModel = mongoose.model('Blog',blogSchema)

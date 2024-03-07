@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 
 const CreateBlog = () => {
   const id = localStorage.getItem("userId");
+  const userName = localStorage.getItem("userName");
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({
     title: "",
@@ -28,6 +29,7 @@ const CreateBlog = () => {
         description: inputs.description,
         image: inputs.image,
         user: id,
+        userName: userName,
       });
       if (data?.success) {
         // toast.success("blog craated");
