@@ -3,7 +3,6 @@ import {Box,AppBar,Toolbar,Button,Typography,Tabs,Tab} from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'; 
 import { authActions } from '../redux/Store';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -24,7 +23,6 @@ const Header = () => {
         try{
         dispatch(authActions.logout());
         navigate('/login');
-        toast.error("logout Succesfully");
         localStorage.clear();
         }
         catch(err)

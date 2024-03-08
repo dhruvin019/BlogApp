@@ -108,7 +108,7 @@ exports.getBlogById = async (req,res) => {
 exports.updateBlog = async (req,res) => {
     try{
         const { id } = req.params;
-        const{title,description,image,usrName} = req.body;
+        const{title,description,image} = req.body;
         const updated = await blogModel.findByIdAndUpdate(
             id,
             {...req.body},
