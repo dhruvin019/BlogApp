@@ -63,7 +63,7 @@ const UserBlogs = () => {
       setLoading(true);
       const id = localStorage.getItem("userId");
       console.log(id);
-      const { data } = await axios.get(`/api/v1/blog/user-blog/${id}`);
+      const { data } = await axios.get(`https://blogapp-iumc.onrender.com/api/v1/blog/user-blog/${id}`);
       if (data?.success) {
         setBlogs(data?.userBlog.blogs);
       }

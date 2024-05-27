@@ -26,7 +26,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
-      const {data} = await axios.post('/api/v1/user/register',{username:input.name,email:input.email,password:input.password});
+      const {data} = await axios.post('https://blogapp-iumc.onrender.com/api/v1/user/register',{username:input.name,email:input.email,password:input.password});
       if(data.success)
       {
         toast.success("User Register Succesfully");

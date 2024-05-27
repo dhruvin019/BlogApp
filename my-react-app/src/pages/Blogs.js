@@ -10,7 +10,7 @@ const Blogs = () => {
   const getAllBlogs = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get("/api/v1/blog/all-blog");
+      const { data } = await axios.get("https://blogapp-iumc.onrender.com/api/v1/blog/all-blog");
       if (data?.success) {
         setBlogs(data?.blogs);
       }

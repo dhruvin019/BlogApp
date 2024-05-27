@@ -27,9 +27,11 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(morgan("dev"));
 
+
+const BASE_URL = process.env.BASE_URL
 //routes
-app.use("/api/v1/user", userRoutes);
-app.use("/api/v1/blog", blogRoutes);
+app.use("${BASE_URL}/api/v1/user", userRoutes);
+app.use("${BASE_URL}/api/v1/blog", blogRoutes);
 
 
 // Port

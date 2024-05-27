@@ -26,7 +26,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post('api/v1/user/login', {
+      const { data } = await axios.post('https://blogapp-iumc.onrender.com/api/v1/user/login', {
         email: input.email,
         password: input.password
       });

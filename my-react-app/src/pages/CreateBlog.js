@@ -19,7 +19,7 @@ const CreateBlog = () => {
 
   const generateDescription = async (title) => {
     try {
-      const response = await axios.post("/api/v1/blog/generate-description", {
+      const response = await axios.post("https://blogapp-iumc.onrender.com/api/v1/blog/generate-description", {
         prompt: title,
       });
       if (response.data.success) {
@@ -76,7 +76,7 @@ const CreateBlog = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post("/api/v1/blog/create-blog", {
+      const { data } = await axios.post("https://blogapp-iumc.onrender.com/api/v1/blog/create-blog", {
         title: inputs.title,
         description: inputs.description,
         image: inputs.image,
