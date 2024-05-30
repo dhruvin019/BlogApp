@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import BlogCard from "../components/BlogCard";
 import Spinner from "../components/Spinner";
+import BlogCard from "../components/BlogCard";
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading,setLoading] = useState(false);

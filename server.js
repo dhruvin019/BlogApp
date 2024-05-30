@@ -30,8 +30,8 @@ app.use(morgan("dev"));
 
 const BASE_URL = process.env.BASE_URL
 //routes
-app.use("${BASE_URL}/api/v1/user", userRoutes);
-app.use("${BASE_URL}/api/v1/blog", blogRoutes);
+app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/blog", blogRoutes);
 
 
 // Port
